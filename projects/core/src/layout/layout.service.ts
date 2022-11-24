@@ -4,7 +4,9 @@ import {Overlay} from "@angular/cdk/overlay";
 import {lastValueFrom, map, shareReplay} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {LayoutComponent} from "./components/layout/layout.component";
-import {Router} from "@angular/router";
+import {Router, Routes} from "@angular/router";
+import {DesktopComponent} from "./components/desktop/desktop.component";
+import {MobileComponent} from "./components/mobile/mobile.component";
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +22,13 @@ export class LayoutService {
     return this.injector.get(Router);
   }
 
-  get auMedia$() {
+  get media$() {
     const breakpoints = {
-      '(orientation: portrait)': 'portrait', '(orientation: landscape)': 'landscape',
-      [Breakpoints.Handset]: 'mobile', [Breakpoints.Tablet]: 'tablet', [Breakpoints.Web]: 'desktop'
+      '(orientation: portrait)': 'portrait',
+      '(orientation: landscape)': 'landscape',
+      [Breakpoints.Handset]: 'mobile',
+      [Breakpoints.Tablet]: 'tablet',
+      [Breakpoints.Web]: 'desktop'
     };
     return this.bo.observe(Object.keys(breakpoints)).pipe(map((x: any) => {
       if (x.matches) {
@@ -46,15 +51,21 @@ export class LayoutService {
 
   public getJSON() {
     const config$ = this.http.get('assets/config.json').pipe(map(response => {
-      const test = [
-        {path: 'home', component: LayoutComponent},
-        {path: 'dashboard', component: LayoutComponent},
-        {path: '**', redirectTo: 'home'}
-      ];
+      const children = [{path: 'home', component: LayoutComponent}, {
+        path: 'dashboard',
+        component: LayoutComponent
+      }, {path: '**', redirectTo: 'home'}];
+
+      let routesDesktop: Routes = [{
+        path: '', component: DesktopComponent, children: children
+      }];
+
+      let routesMobile: Routes = [{
+        path: '', component: MobileComponent, children: children
+      }];
       const router = this.injector.get(Router);
-      router.config = [...test];
-      router.navigateByUrl(test[1].path);
-      // this.updateRoutes(this.router.config, test);
+      router.config = [...window.innerWidth > 600 ? routesDesktop : routesMobile];
+      router.navigateByUrl('');
       return response;
     }))
     return lastValueFrom(config$);

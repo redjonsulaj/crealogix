@@ -33,7 +33,7 @@ export class LayoutModule implements OnDestroy {
 
   constructor(private router: Router, private layoutService: LayoutService) {
     if (window.location.pathname.indexOf('auth') === -1) {
-      this.subscription = this.layoutService.auMedia$.pipe(skip(1), debounceTime(1000)).subscribe(media => {
+      this.subscription = this.layoutService.media$.pipe(skip(1), debounceTime(1000)).subscribe(media => {
         if (media.layout === 'mobile') {
           router.resetConfig(routesMobile);
           router.navigateByUrl(window.location.pathname === '/' ? '/dashboard' : window.location.pathname).then(r => r);
