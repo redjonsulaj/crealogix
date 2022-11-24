@@ -12,6 +12,10 @@ import {MobileComponent} from "./components/mobile/mobile.component";
   providedIn: 'root'
 })
 export class LayoutService {
+  public components: any = {
+    'people': LayoutComponent,
+    'films': LayoutComponent
+  }
   public layout: string | undefined;
   public orientation: string | undefined;
 
@@ -50,18 +54,20 @@ export class LayoutService {
   }
 
   public getJSON() {
-    const config$ = this.http.get('assets/config.json').pipe(map(response => {
-      const children = [{path: 'home', component: LayoutComponent}, {
-        path: 'dashboard',
-        component: LayoutComponent
-      }, {path: '**', redirectTo: 'home'}];
+    const config$ = this.http.get('assets/config.json').pipe(map((response: any) => {
+      const entities = response['entities'];
+      let _children: any = [{path: '**', redirectTo: 'people'}];
+      Object.keys(entities).forEach((_entity: string) => {
+        const child = {path: _entity, component: this.components[_entity]};
+        _children.push(child);
+      })
 
       let routesDesktop: Routes = [{
-        path: '', component: DesktopComponent, children: children
+        path: '', component: DesktopComponent, children: _children
       }];
 
       let routesMobile: Routes = [{
-        path: '', component: MobileComponent, children: children
+        path: '', component: MobileComponent, children: _children
       }];
       const router = this.injector.get(Router);
       router.config = [...window.innerWidth > 600 ? routesDesktop : routesMobile];
