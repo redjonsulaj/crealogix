@@ -6,25 +6,23 @@ import {DesktopComponent} from './components/desktop/desktop.component';
 import {LayoutService} from "./layout.service";
 import {Router, RouterModule, Routes, ROUTES} from "@angular/router";
 import {debounceTime, skip, Subscription} from "rxjs";
+import {HttpClientModule} from "@angular/common/http";
 
-const children = [{}];
+const children = [
+  {path: '', component: LayoutComponent},
+];
 
-const routesDesktop: Routes = [{
+let routesDesktop: Routes = [{
   path: '', component: DesktopComponent, children: children
 }];
 
-const routesMobile: Routes = [{
+let routesMobile: Routes = [{
   path: '', component: MobileComponent, children: children
 }];
 
 @NgModule({
   declarations: [LayoutComponent, MobileComponent, DesktopComponent],
-  imports: [CommonModule, RouterModule.forRoot([], {
-    useHash: !(!!(window.history && window.history.pushState)),
-    anchorScrolling: 'enabled',
-    scrollPositionRestoration: 'enabled',
-    onSameUrlNavigation: 'reload'
-  })],
+  imports: [CommonModule, RouterModule.forChild([]), HttpClientModule],
   providers: [
     {provide: ROUTES, multi: true, deps: [LayoutService], useFactory: routes_init}
   ]
@@ -53,6 +51,8 @@ export class LayoutModule implements OnDestroy {
 }
 
 export function routes_init(is: LayoutService) {
-  const rd = is.getRoutes() || {};
-  return rd;
+  const rd = is.getRoutes() || [];
+  routesDesktop[0] = {...routesDesktop[0], children: [...rd]};
+  routesMobile[0] = {...routesMobile[0], children: [...rd]};
+  return window.innerWidth > 600 ? routesDesktop : routesMobile;
 }

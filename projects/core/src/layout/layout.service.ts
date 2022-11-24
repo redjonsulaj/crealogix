@@ -3,6 +3,7 @@ import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {Overlay} from "@angular/cdk/overlay";
 import {map, shareReplay} from "rxjs";
 import {HttpClient} from "@angular/common/http";
+import {LayoutComponent} from "./components/layout/layout.component";
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +43,10 @@ export class LayoutService {
     this.getJSON().subscribe( response => {
       console.log(43, response);
       return response;
-    })
+    });
+    return [
+      {path: '', component: LayoutComponent},
+      {path: 'dashboard', component: LayoutComponent}];
   }
 
   public getJSON() {

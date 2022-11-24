@@ -3,8 +3,7 @@ import {CoreComponent} from './core.component';
 import {RouterModule, Routes} from "@angular/router";
 
 const routes: Routes = [
-  {path: '', loadChildren: () => import('../layout/layout.module').then(l => l.LayoutModule)},
-  {path: '**', redirectTo: ''}
+  {path: '', loadChildren: () => import('../layout/layout.module').then(l => l.LayoutModule)}
 ];
 
 @NgModule({
@@ -12,7 +11,7 @@ const routes: Routes = [
     CoreComponent
   ],
   imports: [
-    RouterModule.forRoot(routes)
+    RouterModule.forChild(routes)
   ],
   exports: [
     CoreComponent
