@@ -1,4 +1,4 @@
-import {NgModule, OnDestroy} from '@angular/core';
+import {APP_INITIALIZER, NgModule, OnDestroy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LayoutComponent} from './components/layout/layout.component';
 import {MobileComponent} from './components/mobile/mobile.component';
@@ -24,6 +24,7 @@ let routesMobile: Routes = [{
   declarations: [LayoutComponent, MobileComponent, DesktopComponent],
   imports: [CommonModule, RouterModule.forChild([]), HttpClientModule],
   providers: [
+    {provide: APP_INITIALIZER, multi: true, deps: [LayoutService], useFactory: app_init},
     {provide: ROUTES, multi: true, deps: [LayoutService], useFactory: routes_init}
   ]
 })
@@ -50,9 +51,11 @@ export class LayoutModule implements OnDestroy {
   }
 }
 
-export function routes_init(is: LayoutService) {
-  const rd = is.getRoutes() || [];
-  routesDesktop[0] = {...routesDesktop[0], children: [...rd]};
-  routesMobile[0] = {...routesMobile[0], children: [...rd]};
+export function app_init(ls: LayoutService) {
+  return () => ls.getJSON().then(response => response);
+}
+
+export function routes_init(ls: LayoutService) {
+  ls.getJSON();
   return window.innerWidth > 600 ? routesDesktop : routesMobile;
 }

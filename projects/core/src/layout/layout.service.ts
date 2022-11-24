@@ -1,9 +1,10 @@
-import {Injectable} from '@angular/core';
+import {Injectable, Injector} from '@angular/core';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {Overlay} from "@angular/cdk/overlay";
-import {map, shareReplay} from "rxjs";
+import {lastValueFrom, map, shareReplay} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {LayoutComponent} from "./components/layout/layout.component";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,11 @@ export class LayoutService {
   public layout: string | undefined;
   public orientation: string | undefined;
 
-  constructor(public bo: BreakpointObserver, private overlay: Overlay, private http: HttpClient) {
+  constructor(public bo: BreakpointObserver, private overlay: Overlay, private http: HttpClient, private injector: Injector) {
+  }
+
+  get router(): Router {
+    return this.injector.get(Router);
   }
 
   get auMedia$() {
@@ -39,17 +44,31 @@ export class LayoutService {
     }), shareReplay(1));
   }
 
-  getRoutes() {
-    this.getJSON().subscribe( response => {
-      console.log(43, response);
+  public getJSON() {
+    const config$ = this.http.get('assets/config.json').pipe(map(response => {
+      const test = [
+        {path: 'home', component: LayoutComponent},
+        {path: 'dashboard', component: LayoutComponent},
+        {path: '**', redirectTo: 'home'}
+      ];
+      const router = this.injector.get(Router);
+      router.config = [...test];
+      router.navigateByUrl(test[1].path);
+      // this.updateRoutes(this.router.config, test);
       return response;
-    });
-    return [
-      {path: '', component: LayoutComponent},
-      {path: 'dashboard', component: LayoutComponent}];
+    }))
+    return lastValueFrom(config$);
   }
 
-  public getJSON() {
-    return this.http.get('assets/config.json');
+  updateRoutes(routes: any, test: any) {
+    routes.map((route: any) => {
+      if (route.children) {
+        route.children = [...route.children, ...test];
+        return;
+      } else if (route.hasOwnProperty('_loadedRoutes')) {
+        console.log(74, route)
+        this.updateRoutes(route['_loadedRoutes'], test);
+      }
+    });
   }
 }
