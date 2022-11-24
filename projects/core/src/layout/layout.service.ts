@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {Overlay} from "@angular/cdk/overlay";
 import {map, shareReplay} from "rxjs";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class LayoutService {
   public layout: string | undefined;
   public orientation: string | undefined;
 
-  constructor(public bo: BreakpointObserver, private overlay: Overlay) {
+  constructor(public bo: BreakpointObserver, private overlay: Overlay, private http: HttpClient) {
   }
 
   get auMedia$() {
@@ -38,6 +39,13 @@ export class LayoutService {
   }
 
   getRoutes() {
-    return {};
+    this.getJSON().subscribe( response => {
+      console.log(43, response);
+      return response;
+    })
+  }
+
+  public getJSON() {
+    return this.http.get('assets/config.json');
   }
 }
