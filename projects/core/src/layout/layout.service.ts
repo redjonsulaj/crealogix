@@ -15,7 +15,8 @@ export class LayoutService {
   public components: any = {
     'people': LayoutComponent,
     'films': LayoutComponent
-  }
+  };
+  public config: any = {};
   public layout: string | undefined;
   public orientation: string | undefined;
 
@@ -55,6 +56,7 @@ export class LayoutService {
 
   public getJSON() {
     const config$ = this.http.get('assets/config.json').pipe(map((response: any) => {
+      this.config = response;
       const entities = response['entities'];
       let _children: any = [{path: '**', redirectTo: 'people'}];
       Object.keys(entities).forEach((_entity: string) => {

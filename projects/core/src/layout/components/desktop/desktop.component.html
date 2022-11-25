@@ -1,1 +1,11 @@
-<router-outlet></router-outlet>
+<mat-toolbar color="primary">
+  <mat-toolbar-row *ngIf="search.active">
+    <lib-navbar-search [search]="search"></lib-navbar-search>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+    <lib-navbar></lib-navbar>
+  </mat-toolbar-row>
+</mat-toolbar>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
