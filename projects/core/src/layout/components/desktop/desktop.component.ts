@@ -12,17 +12,30 @@ export class DesktopComponent implements OnInit {
     active: false,
     config: {}
   };
+  entities: any = {
+    active: false,
+  };
   constructor(public layoutService: LayoutService, private cd: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
     this.initSearch();
+    this.initEntities();
   }
 
   private initSearch() {
     if (this.layoutService.config.hasOwnProperty('search')) {
       this.search = {...this.layoutService.config.search};
-      this.cd.detectChanges();
+      this.cd.markForCheck();
+    }
+  }
+
+  private initEntities() {
+    if (this.layoutService.config.hasOwnProperty('entities')) {
+      this.entities = {active: true, config: {...this.layoutService.config.entities}};
+      this.cd.markForCheck();
+      // Object.assign(this.entities || {}, {active: true, ...this.layoutService.config.entities})
+      // this.entities = {active: true, ...this.layoutService.config.entities};
     }
   }
 

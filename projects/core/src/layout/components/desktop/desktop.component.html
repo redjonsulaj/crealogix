@@ -2,8 +2,8 @@
   <mat-toolbar-row *ngIf="search.active">
     <lib-navbar-search [search]="search"></lib-navbar-search>
   </mat-toolbar-row>
-  <mat-toolbar-row>
-    <lib-navbar></lib-navbar>
+  <mat-toolbar-row *ngIf="entities">
+    <lib-navbar [entities]="entities"></lib-navbar>
   </mat-toolbar-row>
 </mat-toolbar>
 <div class="container">

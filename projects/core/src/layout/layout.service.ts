@@ -14,7 +14,11 @@ import {MobileComponent} from "./components/mobile/mobile.component";
 export class LayoutService {
   public components: any = {
     'people': LayoutComponent,
-    'films': LayoutComponent
+    'films': LayoutComponent,
+    'planets': LayoutComponent,
+    'species': LayoutComponent,
+    'vehicles': LayoutComponent,
+    'starships': LayoutComponent
   };
   public config: any = {};
   public layout: string | undefined;
@@ -58,7 +62,8 @@ export class LayoutService {
     const config$ = this.http.get('assets/config.json').pipe(map((response: any) => {
       this.config = response;
       const entities = response['entities'];
-      let _children: any = [{path: '**', redirectTo: 'people'}];
+      // let _children: any = [{path: '**', redirectTo: 'films'}];
+      let _children: any = [];
       Object.keys(entities).forEach((_entity: string) => {
         const child = {path: _entity, component: this.components[_entity]};
         _children.push(child);
