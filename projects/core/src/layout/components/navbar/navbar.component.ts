@@ -27,7 +27,6 @@ export class NavbarComponent implements OnInit{
   }
 
   redirectTo(link: any) {
-    console.log(31, link)
     localStorage.setItem('url', link.path);
     this.router.navigateByUrl('').then( r => this.router.navigateByUrl(`/${link.path}`));
   }
