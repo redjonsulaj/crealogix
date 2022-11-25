@@ -78,10 +78,15 @@ export class LayoutService {
       }];
       const router = this.injector.get(Router);
       router.config = [...window.innerWidth > 600 ? routesDesktop : routesMobile];
-      router.navigateByUrl('');
+      this.routeCheck();
       return response;
     }))
     return lastValueFrom(config$);
+  }
+
+  private routeCheck() {
+    const url = localStorage.getItem('url');
+    this.router.navigateByUrl(url || '');
   }
 
   updateRoutes(routes: any, test: any) {

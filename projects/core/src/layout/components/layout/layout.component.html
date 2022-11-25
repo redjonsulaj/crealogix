@@ -1,1 +1,6 @@
-<p>layout works!</p>
+<ng-template [ngIf]="(list$ | async)" [ngIfElse]="inProgress">
+    Generated data
+</ng-template>
+<ng-template #inProgress>
+    In progress
+</ng-template>
