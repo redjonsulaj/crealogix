@@ -13,6 +13,5 @@ export class ItemComponent implements OnInit{
   }
 
   ngOnInit() {
-    console.log(16, this.item)
   }
 }

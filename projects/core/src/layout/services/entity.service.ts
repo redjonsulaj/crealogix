@@ -29,6 +29,7 @@ export class EntityService {
   }
 
   getEntityByIdAndMap(url: string, mapper: string | number) {
+    console.log(32, url, mapper)
     return this.http.get(url).pipe(map( (response: any) => response[mapper]));
   }
 
