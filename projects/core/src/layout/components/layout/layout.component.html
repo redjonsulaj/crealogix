@@ -1,5 +1,12 @@
-<ng-template [ngIf]="(list$ | async)" [ngIfElse]="inProgress">
-    Generated data
+<ng-template [ngIf]="(list$ | async)" let-list [ngIfElse]="inProgress">
+  <mat-card>
+    <mat-card-content>
+      <div *ngFor="let item of list;trackBy: trackIndex" lib-item [item]="{content: item, model: entity}"></div>
+    </mat-card-content>
+    <mat-card-footer>
+
+    </mat-card-footer>
+  </mat-card>
 </ng-template>
 <ng-template #inProgress>
     In progress

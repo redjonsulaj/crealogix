@@ -9,6 +9,8 @@ import {HttpClientModule} from "@angular/common/http";
 import {NavbarComponent} from './components/navbar/navbar.component';
 import {MaterialModule} from "../shared/material.module";
 import { NavbarSearchComponent } from './components/navbar-search/navbar-search.component';
+import { ItemComponent } from './components/item/item.component';
+import {SharedModule} from "../shared/shared.module";
 
 const children = [
   {path: '', component: LayoutComponent},
@@ -24,8 +26,8 @@ let routesMobile: Routes = [{
 
 
 @NgModule({
-  declarations: [LayoutComponent, MobileComponent, DesktopComponent, NavbarComponent, NavbarSearchComponent],
-  imports: [CommonModule, RouterModule.forChild([]), HttpClientModule, MaterialModule],
+  declarations: [LayoutComponent, MobileComponent, DesktopComponent, NavbarComponent, NavbarSearchComponent, ItemComponent],
+  imports: [CommonModule, RouterModule.forChild([]), HttpClientModule, MaterialModule, SharedModule],
   providers: [{provide: APP_INITIALIZER, multi: true, deps: [LayoutService], useFactory: app_init}, {
     provide: ROUTES,
     multi: true,

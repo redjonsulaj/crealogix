@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, TrackByFunction} from '@angular/core';
 import {LayoutService} from "../../layout.service";
 import {Observable} from "rxjs";
 import {EntityService} from "../../services/entity.service";
@@ -16,7 +16,6 @@ export class LayoutComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.validateUrl()
-    console.log(this.l.config, this.l.router.url, window.location.pathname);
   }
 
   ngAfterViewInit() {
@@ -28,7 +27,6 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     }
     const url = this.l.router.url.split('/')[1];
     this.entity = this.l.config['entities'][url];
-    console.log(31, this.entity);
     if (this.entity.hasOwnProperty('view')) {
       this.generateView();
     } else {
@@ -43,4 +41,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   private generateInProgress() {
 
   }
+
+  public trackIndex: TrackByFunction<any[]> = (index) => index;
+
 }
