@@ -12,6 +12,8 @@ export class EntityService {
     count: 0
   };
 
+  mapperProperties: any = {}
+
   constructor(private http: HttpClient) { }
 
   getEntity(url: string) {
@@ -29,8 +31,10 @@ export class EntityService {
   }
 
   getEntityByIdAndMap(url: string, mapper: string | number) {
-    console.log(32, url, mapper)
-    return this.http.get(url).pipe(map( (response: any) => response[mapper]));
+    return this.http.get(url).pipe(map( (response: any) => {
+      this.mapperProperties[url] = response[mapper];
+      return response[mapper];
+    }));
   }
 
 }
