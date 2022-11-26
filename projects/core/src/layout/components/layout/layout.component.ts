@@ -37,9 +37,9 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   private generateView(url?: string) {
     if(this.entity.hasOwnProperty('secondUrl')) {
       const mapper = this.entity['attributes'][this.entity['secondUrl']]['mapper']
-      this.list$ = this.entityService.getEntityAndMerge(url || this.entity.url, this.entity['secondUrl'], mapper);
+      this.list$ = this.entityService.getEntityUrlAndMerge(url || this.entity.url, this.entity['secondUrl'], mapper);
     } else {
-      this.list$ = this.entityService.getEntity(url || this.entity.url);
+      this.list$ = this.entityService.getEntityUrl(url || this.entity.url);
     }
   }
 
@@ -55,5 +55,13 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     } else if (direction === 'next' && !!this.entityService.pagination.next) {
       this.generateView(this.entityService.pagination.next)
     }
+  }
+
+  redirect(item: any) {
+    const entity = this.l.router.url.split('/')[1];
+    const url = item.url.split(entity)[1].replace(/.$/, '');
+    this.entityService.setItem(item);
+    this.entityService.setEntity(this.entity);
+    this.l.router.navigateByUrl(`${entity}${url}`, {...item});
   }
 }

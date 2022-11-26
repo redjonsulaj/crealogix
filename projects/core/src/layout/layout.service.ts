@@ -7,19 +7,12 @@ import {LayoutComponent} from "./components/layout/layout.component";
 import {Router, Routes} from "@angular/router";
 import {DesktopComponent} from "./components/desktop/desktop.component";
 import {MobileComponent} from "./components/mobile/mobile.component";
+import {ItemDetailComponent} from "./components/item-detail/item-detail.component";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LayoutService {
-  public components: any = {
-    'people': LayoutComponent,
-    'films': LayoutComponent,
-    'planets': LayoutComponent,
-    'species': LayoutComponent,
-    'vehicles': LayoutComponent,
-    'starships': LayoutComponent
-  };
   public config: any = {};
   public layout: string | undefined;
   public orientation: string | undefined;
@@ -65,8 +58,10 @@ export class LayoutService {
       // let _children: any = [{path: '**', redirectTo: 'films'}];
       let _children: any = [];
       Object.keys(entities).forEach((_entity: string) => {
-        const child = {path: _entity, component: this.components[_entity]};
+        const child = {path: _entity, component: LayoutComponent};
+        const childDetail = {path: _entity+'/:id', component: ItemDetailComponent, data: {}};
         _children.push(child);
+        _children.push(childDetail);
       })
 
       let routesDesktop: Routes = [{

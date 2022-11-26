@@ -13,16 +13,18 @@ export class EntityService {
   };
 
   mapperProperties: any = {}
+  private item: any;
+  private entity: any;
 
   constructor(private http: HttpClient) { }
 
-  getEntity(url: string) {
+  getEntityUrl(url: string) {
     return this.http.get(url).pipe(tap(response => {
       this.updatePagination(response)
     }), map( (response: any) => response.results));
   }
 
-  getEntityAndMerge(url: string, secondUrl: string, mapper: string) {
+  getEntityUrlAndMerge(url: string, secondUrl: string, mapper: string) {
     return this.http.get(url).pipe(tap(response => {
       this.updatePagination(response);
     }), mergeMap( (response: any) => {
@@ -63,4 +65,15 @@ export class EntityService {
     }));
   }
 
+  setItem(item: any) {
+    this.item = {...item};
+  }
+
+  getItem = () => this.item;
+
+  setEntity(entity: any) {
+    this.entity = {...entity};
+  }
+
+  getEntity = () => this.entity;
 }
