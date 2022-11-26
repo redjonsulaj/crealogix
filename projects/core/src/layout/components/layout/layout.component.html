@@ -5,8 +5,8 @@
     </mat-card-content>
     <mat-card-footer>
       <mat-card-actions>
-        <button mat-button mat-raised-button (click)="paginate('previous')">Previous</button>
-        <button mat-button mat-raised-button (click)="paginate('next')">Next</button>
+        <button mat-button mat-raised-button (click)="paginate('previous')" [disabled]="!entityService.pagination.previous">Previous</button>
+        <button mat-button mat-raised-button (click)="paginate('next')" [disabled]="!entityService.pagination.next">Next</button>
       </mat-card-actions>
     </mat-card-footer>
   </mat-card>

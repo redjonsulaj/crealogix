@@ -12,7 +12,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   entity: any = {};
   list$: Observable<any> = new Observable<any>();
 
-  constructor(private l: LayoutService, private entityService: EntityService) { }
+  constructor(private l: LayoutService, public entityService: EntityService) { }
 
   ngOnInit(): void {
     this.validateUrl()
