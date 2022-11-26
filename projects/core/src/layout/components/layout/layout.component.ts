@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit, TrackByFunction} from '@angular/core';
 import {LayoutService} from "../../layout.service";
-import {Observable} from "rxjs";
+import {Observable, tap} from "rxjs";
 import {EntityService} from "../../services/entity.service";
 
 @Component({
@@ -35,7 +35,13 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   }
 
   private generateView() {
-    this.list$ = this.entityService.getEntity(this.entity.url);
+    if(this.entity.hasOwnProperty('secondUrl')) {
+      this.list$ = this.entityService.getEntityAndMerge(this.entity.url, this.entity['secondUrl']).pipe(tap(res => {
+        console.log(40, res)
+      }));
+    } else {
+      this.list$ = this.entityService.getEntity(this.entity.url);
+    }
   }
 
   private generateInProgress() {

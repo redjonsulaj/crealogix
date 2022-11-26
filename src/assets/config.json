@@ -23,6 +23,7 @@
     },
     "people": {
       "url": "https://swapi.dev/api/people/",
+      "secondUrl": "homeworld",
       "attributes": {
         "name": "string",
         "birth_year": "string",
