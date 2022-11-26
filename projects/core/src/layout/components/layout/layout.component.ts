@@ -36,9 +36,8 @@ export class LayoutComponent implements OnInit, AfterViewInit {
 
   private generateView() {
     if(this.entity.hasOwnProperty('secondUrl')) {
-      this.list$ = this.entityService.getEntityAndMerge(this.entity.url, this.entity['secondUrl']).pipe(tap(res => {
-        console.log(40, res)
-      }));
+      const mapper = this.entity['attributes'][this.entity['secondUrl']]['mapper']
+      this.list$ = this.entityService.getEntityAndMerge(this.entity.url, this.entity['secondUrl'], mapper);
     } else {
       this.list$ = this.entityService.getEntity(this.entity.url);
     }

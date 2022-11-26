@@ -22,7 +22,7 @@ export class EntityService {
     }), map( (response: any) => response.results));
   }
 
-  getEntityAndMerge(url: string, secondUrl: string) {
+  getEntityAndMerge(url: string, secondUrl: string, mapper: string) {
     return this.http.get(url).pipe(tap(response => {
       this.updatePagination(response);
     }), mergeMap( (response: any) => {
@@ -36,16 +36,13 @@ export class EntityService {
         }
         return a;
       }, []);
-      console.log(39, _list);
-      const _mapper = _list.map(l => this.getEntityByIdAndMap(l, secondUrl));
-      console.log(41, _mapper)
-      return combineLatest({..._mapper}).pipe(
-        tap( _res => {
-          console.log(42, _res);
-        }), map( res => {
-          return response.results;
-        }))
+      const _mapper = _list.map(l => this.getEntityByIdAndMap(l, mapper));
+      return combineLatest(_mapper).pipe(map( res => this.mapResponseResults(response.results, secondUrl)))
     }));
+  }
+
+  private mapResponseResults(results: Array<any>, key: string) {
+    return results.map( (res) => ({...res, [key]: this.mapperProperties[res[key]]}))
   }
 
   private updatePagination(response: any) {

@@ -1,7 +1,4 @@
 <div>
   <p *ngFor="let el of item.model['view']">{{el}}:
-    <ng-template [ngIf]="item.model['attributes'][el].hasOwnProperty('mapper')" [ngIfElse]="normal">
-<!--      {{(item.content[el] | mapper : item.model['attributes'][el] | async)}}-->
-    </ng-template>
-    <ng-template #normal><span>{{item.content[el] | transform : item.model['attributes'][el]}}</span></ng-template>
+    <span>{{item.content[el] | transform : item.model['attributes'][el]}}</span>
 </div>
