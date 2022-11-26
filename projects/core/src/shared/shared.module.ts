@@ -2,13 +2,10 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MaterialModule} from "./material.module";
 import {TransformPipe} from "./pipes/transform.pipe";
-import {MapperPipe} from "./pipes/mapper.pipe";
-
 
 @NgModule({
   declarations: [
-    TransformPipe,
-    MapperPipe
+    TransformPipe
   ],
   imports: [
     CommonModule,
@@ -16,8 +13,7 @@ import {MapperPipe} from "./pipes/mapper.pipe";
   ],
   exports: [
     MaterialModule,
-    TransformPipe,
-    MapperPipe
+    TransformPipe
   ]
 })
 export class SharedModule {

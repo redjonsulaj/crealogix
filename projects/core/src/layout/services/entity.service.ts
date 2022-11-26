@@ -54,6 +54,9 @@ export class EntityService {
   }
 
   getEntityByIdAndMap(url: string, mapper: string | number) {
+    if (this.mapperProperties[url]) {
+      return of(this.mapperProperties[url]);
+    }
     return this.http.get(url).pipe(map( (response: any) => {
       this.mapperProperties[url] = response[mapper];
       return response[mapper];
