@@ -1,6 +1,8 @@
 <div class="flex">
   <div class="searchResults">
-    <button mat-button mat-raised-button *ngFor="let btn of searchHistory">Click</button>
+      <ng-container *ngFor="let btn of searchHistory | async">
+        <button *ngIf="btn" mat-button mat-raised-button (click)="researchItem(btn)"><a href="">Searched for: {{btn}}</a></button>
+      </ng-container>
   </div>
   <div class="searchInput">
     <form [formGroup]="searchForm" (ngSubmit)="searchEntity()">
