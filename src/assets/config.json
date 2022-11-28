@@ -3,7 +3,10 @@
     "active": true,
     "entities": {
       "people": {
-        "attributes": ["name"]
+        "attributes": ["search"]
+      },
+      "starships": {
+        "attributes": ["search"]
       }
     },
     "save": 6

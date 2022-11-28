@@ -12,6 +12,7 @@ import {NavbarSearchComponent} from './components/navbar-search/navbar-search.co
 import {ItemComponent} from './components/item/item.component';
 import {SharedModule} from "../shared/shared.module";
 import {ItemDetailComponent} from './components/item-detail/item-detail.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 const children = [{path: '', component: LayoutComponent},];
 
@@ -26,7 +27,7 @@ let routesMobile: Routes = [{
 
 @NgModule({
   declarations: [LayoutComponent, MobileComponent, DesktopComponent, NavbarComponent, NavbarSearchComponent, ItemComponent, ItemDetailComponent],
-  imports: [CommonModule, RouterModule.forChild([]), HttpClientModule, MaterialModule, SharedModule],
+  imports: [CommonModule, RouterModule.forChild([]), HttpClientModule, MaterialModule, SharedModule, ReactiveFormsModule],
   providers: [{provide: APP_INITIALIZER, multi: true, deps: [LayoutService], useFactory: app_init}, {
     provide: ROUTES, multi: true, deps: [LayoutService], useFactory: routes_init
   }]

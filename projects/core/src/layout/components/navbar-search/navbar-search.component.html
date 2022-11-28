@@ -3,11 +3,12 @@
     <button mat-button mat-raised-button *ngFor="let btn of searchHistory">Click</button>
   </div>
   <div class="searchInput">
-    <form>
+    <form [formGroup]="searchForm" (ngSubmit)="searchEntity()">
       <mat-form-field>
         <mat-label>Search</mat-label>
-        <input matInput type="text">
+        <input formControlName = "searchInput" matInput type="text">
       </mat-form-field>
+      <button type="submit" [disabled]="!searchForm.valid">Search<i class="fa fa-search"></i></button>
     </form>
   </div>
 </div>

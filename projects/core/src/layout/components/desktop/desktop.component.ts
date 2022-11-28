@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {LayoutService} from "../../layout.service";
+import {EntityService} from "../../services/entity.service";
 
 @Component({
   selector: 'lib-desktop',
@@ -15,7 +16,7 @@ export class DesktopComponent implements OnInit {
   entities: any = {
     active: false,
   };
-  constructor(public layoutService: LayoutService, private cd: ChangeDetectorRef) {
+  constructor(public layoutService: LayoutService, private cd: ChangeDetectorRef, private entityService: EntityService) {
   }
 
   ngOnInit(): void {
@@ -25,7 +26,12 @@ export class DesktopComponent implements OnInit {
 
   private initSearch() {
     if (this.layoutService.config.hasOwnProperty('search')) {
-      this.search = {...this.layoutService.config.search};
+      const entity =  this.layoutService.router.url.split('/')[1];
+      this.search = {
+        ...this.layoutService.config.search,
+        ...(!this.entityService.getEntity() && {entity: this.layoutService.config.entities[entity]}),
+        url: this.layoutService.config.entities[entity].url.slice(0, -1),
+      };
       this.cd.markForCheck();
     }
   }
