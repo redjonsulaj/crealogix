@@ -64,16 +64,22 @@ export class NavbarSearchComponent implements OnInit, OnChanges {
     this.search.entities[this.entity].attributes.forEach((attr: string) => params = params.append(attr, this.searchForm.value['searchInput']));
 
     this.http.get(this.search.url, {params}).subscribe((val: any) => {
-      const item = val.results[0];
-      this.entityService.setItem(item);
-      if (!this.entityService.getEntity()) {
-        this.entityService.setEntity(this.search.entity);
+      if (val.results.length) {
+        const item = val.results[0];
+        this.entityService.setItem(item);
+        if (!this.entityService.getEntity()) {
+          this.entityService.setEntity(this.search.entity);
+        }
+        if (newSearch) {
+          this.recordHistory(this.searchForm.value['searchInput']);
+        }
+        const url = item.url.split(this.entity)[1].replace(/.$/, '');
+        this.router.navigateByUrl(`${this.entity}${url}`, {...item});
+      } else {
+        this.searchForm.setErrors({noResults: 'This search did not produce any results'});
+        this.cd.markForCheck();
+        setTimeout(() => {this.searchForm.setErrors(null); this.searchForm.reset(); this.cd.markForCheck()}, 2000)
       }
-      if (newSearch) {
-        this.recordHistory(this.searchForm.value['searchInput']);
-      }
-      const url = item.url.split(this.entity)[1].replace(/.$/, '');
-      this.router.navigateByUrl(`${this.entity}${url}`, {...item});
     });
   }
 

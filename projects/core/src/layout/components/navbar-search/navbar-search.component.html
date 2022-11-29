@@ -13,6 +13,11 @@
         <input formControlName = "searchInput" matInput type="text">
       </mat-form-field>
       <button type="submit" [disabled]="!searchForm.valid">Search<i class="fa fa-search"></i></button>
+      <ng-template [ngIf]="searchForm.errors">
+        <ng-container *ngFor="let item of searchForm.errors | keyvalue">
+          {{item.value}}
+        </ng-container>
+      </ng-template>
     </form>
   </div>
 </div>
