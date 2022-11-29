@@ -38,7 +38,8 @@ export class NavbarSearchComponent implements OnInit, OnChanges {
   private initSearchHistory() {
     this.searchHistory.next(Array.from({length: this.search.save}, (v, i) => null));
   }
-   researchItem(val: string) {
+
+  researchItem(val: string) {
     this.searchForm.controls["searchInput"].setValue(val);
     this.searchEntity(false);
   }
@@ -50,7 +51,7 @@ export class NavbarSearchComponent implements OnInit, OnChanges {
         (item: string | null) => {
           if (!savedSearch && !item) {
             savedSearch = true;
-            return  value;
+            return value;
           }
           return item;
         }
@@ -74,11 +75,16 @@ export class NavbarSearchComponent implements OnInit, OnChanges {
           this.recordHistory(this.searchForm.value['searchInput']);
         }
         const url = item.url.split(this.entity)[1].replace(/.$/, '');
+        this.cd.markForCheck();
         this.router.navigateByUrl(`${this.entity}${url}`, {...item});
       } else {
         this.searchForm.setErrors({noResults: 'This search did not produce any results'});
         this.cd.markForCheck();
-        setTimeout(() => {this.searchForm.setErrors(null); this.searchForm.reset(); this.cd.markForCheck()}, 2000)
+        setTimeout(() => {
+          this.searchForm.setErrors(null);
+          this.searchForm.reset();
+          this.cd.markForCheck()
+        }, 2000)
       }
     });
   }
