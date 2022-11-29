@@ -1,7 +1,9 @@
 <div class="flex">
   <div class="searchResults">
       <ng-container *ngFor="let btn of searchHistory | async">
-        <button *ngIf="btn" mat-button mat-raised-button (click)="researchItem(btn)"><a href="">Searched for: {{btn}}</a></button>
+        <button *ngIf="btn" mat-button mat-raised-button class="history" (click)="researchItem(btn)">
+          Searched for: {{btn}}
+        </button>
       </ng-container>
   </div>
   <div class="searchInput">
