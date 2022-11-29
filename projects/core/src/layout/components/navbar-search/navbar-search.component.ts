@@ -44,11 +44,18 @@ export class NavbarSearchComponent implements OnInit, OnChanges {
   }
 
   private recordHistory(value: any) {
-    const historyItemIdx = this.searchHistory.value.findIndex((item: string | null) => !item);
-    if (historyItemIdx > -1) {
-      this.searchHistory.value[historyItemIdx] = value;
-      this.searchHistory.next(this.searchHistory.value);
-    }
+    let savedSearch = false;
+    this.searchHistory.next(
+      this.searchHistory.value.map(
+        (item: string | null) => {
+          if (!savedSearch && !item) {
+            savedSearch = true;
+            return  value;
+          }
+          return item;
+        }
+      )
+    )
   }
 
 
