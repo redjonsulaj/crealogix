@@ -27,6 +27,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     }
     const url = this.l.router.url.split('/')[1];
     this.entity = this.l.config['entities'][url];
+    this.entityService.setEntity(this.entity);
     if (this.entity.hasOwnProperty('view')) {
       this.generateView();
     } else {
