@@ -43,14 +43,15 @@ export class DesktopComponent implements OnInit, OnDestroy {
     if (this.layoutService.config.hasOwnProperty('search')) {
       let entity =  this.layoutService.router.url.split('/')[1];
       if (entity === '') {
-        entity = 'people'
-      }
+        this.layoutService.router.navigateByUrl('/people')
+      } else {
         this.search = {
           ...this.layoutService.config.search,
           ...(!this.entityService.getEntity() && {entity: this.layoutService.config.entities[entity]}),
           url: this.layoutService.config.entities[entity].url.slice(0, -1),
         };
         this.cd.markForCheck();
+      }
 
     }
   }
