@@ -1,6 +1,6 @@
-import {AfterViewInit, Component, OnInit, TrackByFunction} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, TrackByFunction} from '@angular/core';
 import {LayoutService} from "../../layout.service";
-import {Observable, tap} from "rxjs";
+import {distinctUntilChanged, Observable, of} from "rxjs";
 import {EntityService} from "../../services/entity.service";
 
 @Component({
@@ -8,17 +8,25 @@ import {EntityService} from "../../services/entity.service";
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.css']
 })
-export class LayoutComponent implements OnInit, AfterViewInit {
+export class LayoutComponent implements OnInit {
   entity: any = {};
   list$: Observable<any> = new Observable<any>();
 
-  constructor(private l: LayoutService, public entityService: EntityService) { }
-
-  ngOnInit(): void {
-    this.validateUrl()
+  constructor(private l: LayoutService, public entityService: EntityService, private cd: ChangeDetectorRef) {
   }
 
-  ngAfterViewInit() {
+  ngOnInit(): void {
+    this.validateUrl();
+    this.entityService.entityChange$
+      .pipe(distinctUntilChanged())
+      .subscribe(value => {
+        if (value) {
+          this.list$ = of(this.entityService.getItem());
+          this.cd.markForCheck();
+          this.entityService.entityChange$.next(false);
+
+        }
+      });
   }
 
   private validateUrl() {
@@ -36,7 +44,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   }
 
   private generateView(url?: string) {
-    if(this.entity.hasOwnProperty('secondUrl')) {
+    if (this.entity.hasOwnProperty('secondUrl')) {
       const mapper = this.entity['attributes'][this.entity['secondUrl']]['mapper']
       this.list$ = this.entityService.getEntityUrlAndMerge(url || this.entity.url, this.entity['secondUrl'], mapper);
     } else {

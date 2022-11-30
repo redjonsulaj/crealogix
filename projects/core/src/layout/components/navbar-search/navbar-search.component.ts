@@ -1,6 +1,5 @@
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   Input,
   OnChanges,
@@ -10,8 +9,8 @@ import {
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {EntityService} from "../../services/entity.service";
-import {Router} from "@angular/router";
 import {BehaviorSubject} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'lib-navbar-search, [lib-navbar-search]',
@@ -62,21 +61,16 @@ export class NavbarSearchComponent implements OnInit, OnChanges {
 
   searchEntity(newSearch = true) {
     let params = new HttpParams();
-    this.search.entities[this.entity].attributes.forEach((attr: string) => params = params.append(attr, this.searchForm.value['searchInput']));
-
+    const entity = this.router.url.split('/')[1]
+    this.search.entities[entity].attributes.forEach((attr: string) => params = params.append(attr, this.searchForm.value['searchInput']));
+    console.warn(this.search, entity);
     this.http.get(this.search.url, {params}).subscribe((val: any) => {
       if (val.results.length) {
-        const item = val.results[0];
-        this.entityService.setItem(item);
-        if (!this.entityService.getEntity()) {
-          this.entityService.setEntity(this.search.entity);
-        }
+        this.entityService.setItem(val.results);
         if (newSearch) {
           this.recordHistory(this.searchForm.value['searchInput']);
         }
-        const url = item.url.split(this.entity)[1].replace(/.$/, '');
-        this.cd.markForCheck();
-        this.router.navigateByUrl(`${this.entity}${url}`, {...item});
+        this.entityService.entityChange$.next(true);
       } else {
         this.searchForm.setErrors({noResults: 'This search did not produce any results'});
         this.cd.markForCheck();
