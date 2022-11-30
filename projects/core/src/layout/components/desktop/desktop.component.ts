@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {LayoutService} from "../../layout.service";
 import {EntityService} from "../../services/entity.service";
-
+import {Event as NavigationEvent, NavigationEnd} from '@angular/router';
 @Component({
   selector: 'lib-desktop',
   templateUrl: './desktop.component.html',
@@ -22,6 +22,13 @@ export class DesktopComponent implements OnInit {
   ngOnInit(): void {
     this.initSearch();
     this.initEntities();
+    this.layoutService.router.events.subscribe(
+      (event: NavigationEvent) => {
+        if(event instanceof NavigationEnd) {
+          this.initSearch();
+          this.initEntities();
+        }
+      });
   }
 
   private initSearch() {
