@@ -9,7 +9,7 @@ import {Subscription} from "rxjs";
   styleUrls: ['./desktop.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DesktopComponent implements OnInit,  OnDestroy {
+export class DesktopComponent implements OnInit, OnDestroy {
   search: any = {
     active: false,
     config: {}
@@ -41,13 +41,17 @@ export class DesktopComponent implements OnInit,  OnDestroy {
 
   private initSearch() {
     if (this.layoutService.config.hasOwnProperty('search')) {
-      const entity =  this.layoutService.router.url.split('/')[1];
-      this.search = {
-        ...this.layoutService.config.search,
-        ...(!this.entityService.getEntity() && {entity: this.layoutService.config.entities[entity]}),
-        url: this.layoutService.config.entities[entity].url.slice(0, -1),
-      };
-      this.cd.markForCheck();
+      let entity =  this.layoutService.router.url.split('/')[1];
+      if (entity === '') {
+        entity = 'people'
+      }
+        this.search = {
+          ...this.layoutService.config.search,
+          ...(!this.entityService.getEntity() && {entity: this.layoutService.config.entities[entity]}),
+          url: this.layoutService.config.entities[entity].url.slice(0, -1),
+        };
+        this.cd.markForCheck();
+
     }
   }
 
