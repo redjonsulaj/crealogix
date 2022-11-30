@@ -1,14 +1,15 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {LayoutService} from "../../layout.service";
 import {EntityService} from "../../services/entity.service";
 import {Event as NavigationEvent, NavigationEnd} from '@angular/router';
+import {Subscription} from "rxjs";
 @Component({
   selector: 'lib-desktop',
   templateUrl: './desktop.component.html',
   styleUrls: ['./desktop.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DesktopComponent implements OnInit {
+export class DesktopComponent implements OnInit,  OnDestroy {
   search: any = {
     active: false,
     config: {}
@@ -16,19 +17,26 @@ export class DesktopComponent implements OnInit {
   entities: any = {
     active: false,
   };
+  subscriptions: Subscription[] = [];
   constructor(public layoutService: LayoutService, private cd: ChangeDetectorRef, private entityService: EntityService) {
   }
+
+  ngOnDestroy(): void {
+        this.subscriptions.forEach(s => s.unsubscribe())
+    }
 
   ngOnInit(): void {
     this.initSearch();
     this.initEntities();
-    this.layoutService.router.events.subscribe(
-      (event: NavigationEvent) => {
-        if(event instanceof NavigationEnd) {
-          this.initSearch();
-          this.initEntities();
-        }
-      });
+    this.subscriptions.push(
+      this.layoutService.router.events.subscribe(
+        (event: NavigationEvent) => {
+          if(event instanceof NavigationEnd) {
+            this.initSearch();
+            this.initEntities();
+          }
+        })
+    )
   }
 
   private initSearch() {
