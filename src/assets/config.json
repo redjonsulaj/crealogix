@@ -1,0 +1,85 @@
+{
+  "search": {
+    "active": true,
+    "entities": {
+      "people": {
+        "attributes": ["search"]
+      },
+      "starships": {
+        "attributes": ["search"]
+      }
+    },
+    "save": 6
+  },
+  "entities": {
+    "films": {
+      "url": "https://swapi.dev/api/films/"
+    },
+    "planets": {
+      "url": "https://swapi.dev/api/planets/"
+    },
+    "species": {
+      "url": "https://swapi.dev/api/species/"
+    },
+    "vehicles": {
+      "url": "https://swapi.dev/api/vehicles/"
+    },
+    "people": {
+      "url": "https://swapi.dev/api/people/",
+      "secondUrl": "homeworld",
+      "attributes": {
+        "name": "string",
+        "birth_year": "string",
+        "eye_color": "string",
+        "gender": "string",
+        "hair_color": "string",
+        "height": {
+          "type": "string",
+          "condition": {
+            "gt-200": "High",
+            "gt-100": "Normal",
+            "gt-0": "Low"
+          }
+        },
+        "mass": "string",
+        "skin_color": "string",
+        "homeworld": {
+          "type": "string",
+          "mapper": "name"
+        },
+        "url": "string",
+        "created": "string",
+        "edited": "string",
+        "films": "Array",
+        "species": "Array",
+        "starships": "Array",
+        "vehicled": "Array"
+      },
+      "view": ["name", "birth_year", "height", "mass", "homeworld"]
+    },
+    "starships": {
+      "url": "https://swapi.dev/api/starships/",
+      "attributes": {
+        "name": "string",
+        "model": "string",
+        "starship_class": "string",
+        "manufacturer": "string",
+        "cost_in_credits": "string",
+        "length": {
+          "type": "string",
+          "condition": {
+            "gt-1000": "Large",
+            "gt-100": "Normal",
+            "gt-0": "Small"
+          }
+        },
+        "crew": "string",
+        "passengers": "string",
+        "url": "string",
+        "created": "string",
+        "edited": "string"
+      },
+      "view": ["name", "model", "starship_class", "manufacturer", "length"]
+    }
+  }
+}

@@ -1,0 +1,25 @@
+.flex{
+  display: flex;
+  justify-content: space-around;
+  align-content: flex-start;
+  align-items: center;
+  width: 50vw;
+}
+
+
+.searchResults {
+  display: flex;
+  column-gap: 20px;
+}
+
+.history {
+  background: none!important;
+  border: none;
+  padding: 0!important;
+/*  !*optional*!
+  font-family: arial, sans-serif;
+  !*input has OS specific font-family*!
+  color: #069;*/
+  text-decoration: underline;
+  cursor: pointer;
+}

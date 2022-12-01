@@ -1,0 +1,12 @@
+<div class="items">
+  <ng-template [ngIf]="(list$ | async)" let-list [ngIfElse]="inProgress">
+    <div *ngFor="let item of list;trackBy: trackIndex" lib-item [item]="{content: item, model: entity}" (click)="redirect(item)"></div>
+    <div class="pagination">
+      <button (click)="paginate('previous')" [disabled]="!entityService.pagination.previous">Previous</button>
+      <button (click)="paginate('next')" [disabled]="!entityService.pagination.next">Next</button>
+    </div>
+  </ng-template>
+  <ng-template #inProgress>
+      In progress
+  </ng-template>
+</div>
