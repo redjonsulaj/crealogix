@@ -63,6 +63,7 @@ export class NavbarSearchComponent implements OnInit, OnChanges {
     this.search.entities[this.entity].attributes.forEach((attr: string) => params = params.append(attr, this.searchForm.value['searchInput']));
     this.http.get(this.search.url, {params}).subscribe((val: any) => {
       if (val.results.length) {
+        this.entityService.updatePagination(val);
         this.entityService.setItem(val.results);
         if (newSearch) {
           this.recordHistory(this.searchForm.value['searchInput']);

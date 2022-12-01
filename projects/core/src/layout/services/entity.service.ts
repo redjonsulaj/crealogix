@@ -49,7 +49,7 @@ export class EntityService {
     return results.map((res) => ({...res, [key]: this.mapperProperties[res[key]]}))
   }
 
-  private updatePagination(response: any) {
+  updatePagination(response: any) {
     this.pagination = {
       previous: response.previous,
       next: response.next,

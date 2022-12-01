@@ -21,7 +21,10 @@ export class LayoutComponent implements OnInit {
       .pipe(distinctUntilChanged())
       .subscribe(value => {
         if (value) {
+          // const mapper = this.entity['attributes'][this.entity['secondUrl']]['mapper']
           this.list$ = of(this.entityService.getItem());
+          console.log(26, this.entity, this.entity['attributes'], this.entity['attributes'][this.entity['secondUrl']])
+          // this.list$ = of(this.entityService.getItem().map((item: any) => this.entityService.getEntityByIdAndMap(item, this.entity['secondUrl'])));
           this.cd.markForCheck();
           this.entityService.entityChange$.next(false);
 
