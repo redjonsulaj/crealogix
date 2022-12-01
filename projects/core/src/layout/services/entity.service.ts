@@ -45,7 +45,7 @@ export class EntityService {
     }));
   }
 
-  private mapResponseResults(results: Array<any>, key: string) {
+  mapResponseResults(results: Array<any>, key: string) {
     return results.map((res) => ({...res, [key]: this.mapperProperties[res[key]]}))
   }
 
