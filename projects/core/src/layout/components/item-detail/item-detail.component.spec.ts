@@ -22,4 +22,11 @@ describe('ItemDetailComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should render `Back` button', () => {
+    const fixture = TestBed.createComponent(ItemDetailComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('#back')?.textContent).toContain('Back');
+  });
 });
