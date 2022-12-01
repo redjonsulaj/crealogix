@@ -3,6 +3,7 @@ import {LayoutService} from "../../layout.service";
 import {EntityService} from "../../services/entity.service";
 import {Event as NavigationEvent, NavigationEnd} from '@angular/router';
 import {Subscription} from "rxjs";
+
 @Component({
   selector: 'lib-desktop',
   templateUrl: './desktop.component.html',
@@ -18,12 +19,13 @@ export class DesktopComponent implements OnInit, OnDestroy {
     active: false,
   };
   subscriptions: Subscription[] = [];
+
   constructor(public layoutService: LayoutService, private cd: ChangeDetectorRef, private entityService: EntityService) {
   }
 
   ngOnDestroy(): void {
-        this.subscriptions.forEach(s => s.unsubscribe())
-    }
+    this.subscriptions.forEach(s => s.unsubscribe())
+  }
 
   ngOnInit(): void {
     this.initSearch();
@@ -31,7 +33,7 @@ export class DesktopComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.layoutService.router.events.subscribe(
         (event: NavigationEvent) => {
-          if(event instanceof NavigationEnd) {
+          if (event instanceof NavigationEnd) {
             this.initSearch();
             this.initEntities();
           }
@@ -41,7 +43,7 @@ export class DesktopComponent implements OnInit, OnDestroy {
 
   private initSearch() {
     if (this.layoutService.config.hasOwnProperty('search')) {
-      let entity =  this.layoutService.router.url.split('/')[1];
+      let entity = this.layoutService.router.url.split('/')[1];
       if (entity === '') {
         this.layoutService.router.navigateByUrl('/people')
       } else {
