@@ -4,11 +4,11 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
-Run `ng build --configuration development` for building core library.
+- Run `ng build core` for building core library.
 
-**[Optional]** Run `ng build --watch --configuration development` for building and watching for changes and core library
+ * **[Optional]** Run `ng build core --watch` for building and watching for changes and core library
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+ + Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
 ## Running unit tests
 
