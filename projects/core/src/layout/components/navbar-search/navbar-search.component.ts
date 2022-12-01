@@ -10,7 +10,6 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {EntityService} from "../../services/entity.service";
 import {BehaviorSubject} from "rxjs";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'lib-navbar-search, [lib-navbar-search]',
@@ -24,7 +23,7 @@ export class NavbarSearchComponent implements OnInit, OnChanges {
   searchHistory: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   searchForm: FormGroup = new FormGroup({searchInput: new FormControl(null, {validators: [Validators.required]})});
 
-  constructor(private cd: ChangeDetectorRef, private http: HttpClient, public entityService: EntityService, private router: Router) {
+  constructor(private cd: ChangeDetectorRef, private http: HttpClient, public entityService: EntityService) {
   }
 
   ngOnInit() {
@@ -34,7 +33,7 @@ export class NavbarSearchComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
   }
 
-  private initSearchHistory() {
+  public initSearchHistory() {
     this.searchHistory.next(Array.from({length: this.search.save}, (v, i) => null));
   }
 
@@ -50,7 +49,7 @@ export class NavbarSearchComponent implements OnInit, OnChanges {
         (item: string | null) => {
           if (!savedSearch && !item) {
             savedSearch = true;
-            return value;
+            return {value, entity: this.entity};
           }
           return item;
         }
@@ -61,9 +60,7 @@ export class NavbarSearchComponent implements OnInit, OnChanges {
 
   searchEntity(newSearch = true) {
     let params = new HttpParams();
-    const entity = this.router.url.split('/')[1]
-    this.search.entities[entity].attributes.forEach((attr: string) => params = params.append(attr, this.searchForm.value['searchInput']));
-    console.warn(this.search, entity);
+    this.search.entities[this.entity].attributes.forEach((attr: string) => params = params.append(attr, this.searchForm.value['searchInput']));
     this.http.get(this.search.url, {params}).subscribe((val: any) => {
       if (val.results.length) {
         this.entityService.setItem(val.results);

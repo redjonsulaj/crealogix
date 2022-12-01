@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {LayoutService} from "../../layout.service";
 import {EntityService} from "../../services/entity.service";
 import {Event as NavigationEvent, NavigationEnd} from '@angular/router';

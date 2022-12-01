@@ -1,5 +1,5 @@
 <ng-container *ngIf="search.active">
-  <lib-navbar-search [search]="search" [entity]="layoutService.router.url.split('/')[1]"></lib-navbar-search>
+  <lib-navbar-search *ngIf="this.layoutService.router.url.split('/').length === 2" [search]="search" [entity]="layoutService.router.url.split('/')[1]"></lib-navbar-search>
 </ng-container>
 <div class="container">
   <ng-container *ngIf="entities">

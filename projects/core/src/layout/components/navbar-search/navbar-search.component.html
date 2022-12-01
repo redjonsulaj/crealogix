@@ -1,7 +1,7 @@
 <div class="topnav">
   <ng-container *ngFor="let btn of searchHistory | async">
-    <a *ngIf="btn" (click)="researchItem(btn)">
-      Searched for: {{btn}}
+    <a *ngIf="btn" (click)="researchItem(btn.value)">
+      Searched for: "{{btn.value}}" ({{btn.entity}})
     </a>
   </ng-container>
   <ng-template [ngIf]="searchForm.errors">
@@ -12,6 +12,7 @@
   <div class="search-container">
     <form [formGroup]="searchForm" (ngSubmit)="searchEntity()">
       <input formControlName = "searchInput" type="text" placeholder="Search..">
+      <button type="button" (click)="initSearchHistory()"><i class="fa fa-close"></i>Clear History</button>
       <button type="submit" [disabled]="!searchForm.valid"><i class="fa fa-search"></i> Search</button>
     </form>
   </div>
