@@ -1,4 +1,5 @@
-<div>
-  <p *ngFor="let el of item.model['view']">{{el}}:
-    <span>{{item.content[el] | transform : item.model['attributes'][el]}}</span>
+<div class="item">
+  <p *ngFor="let el of item.model['view']">
+    <span>{{el | titlecase}}:</span>
+    <span>{{item.content[el] | transform : item.model['attributes'][el]}}</span></p>
 </div>

@@ -1,23 +1,18 @@
-<div class="flex">
-  <div class="searchResults">
-      <ng-container *ngFor="let btn of searchHistory | async">
-        <button *ngIf="btn" mat-button mat-raised-button class="history" (click)="researchItem(btn)">
-          Searched for: {{btn}}
-        </button>
-      </ng-container>
-  </div>
-  <div class="searchInput">
+<div class="topnav">
+  <ng-container *ngFor="let btn of searchHistory | async">
+    <a *ngIf="btn" (click)="researchItem(btn)">
+      Searched for: {{btn}}
+    </a>
+  </ng-container>
+  <ng-template [ngIf]="searchForm.errors">
+    <ng-container *ngFor="let item of searchForm.errors | keyvalue">
+      {{item.value}}
+    </ng-container>
+  </ng-template>
+  <div class="search-container">
     <form [formGroup]="searchForm" (ngSubmit)="searchEntity()">
-      <mat-form-field>
-        <mat-label>Search</mat-label>
-        <input formControlName = "searchInput" matInput type="text">
-      </mat-form-field>
-      <button type="submit" [disabled]="!searchForm.valid">Search<i class="fa fa-search"></i></button>
-      <ng-template [ngIf]="searchForm.errors">
-        <ng-container *ngFor="let item of searchForm.errors | keyvalue">
-          {{item.value}}
-        </ng-container>
-      </ng-template>
+      <input formControlName = "searchInput" type="text" placeholder="Search..">
+      <button type="submit" [disabled]="!searchForm.valid"><i class="fa fa-search"></i> Search</button>
     </form>
   </div>
 </div>

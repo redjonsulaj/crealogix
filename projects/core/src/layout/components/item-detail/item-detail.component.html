@@ -1,10 +1,4 @@
-<mat-card>
-  <mat-card-content>
-    <div lib-item [item]="{content: entityService.getItem(), model: entityService.getEntity()}"></div>
-  </mat-card-content>
-  <mat-card-footer>
-    <mat-card-actions>
-      <button mat-button mat-raised-button (click)="back()">Back</button>
-    </mat-card-actions>
-  </mat-card-footer>
-</mat-card>
+<div class="item-details">
+  <div lib-item [item]="{content: entityService.getItem(), model: entityService.getEntity()}"></div>
+  <button (click)="back()">Back</button>
+</div>
