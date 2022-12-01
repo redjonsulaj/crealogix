@@ -34,7 +34,7 @@ export class NavbarSearchComponent implements OnInit, OnChanges {
   }
 
   public initSearchHistory() {
-    this.searchHistory.next(Array.from({length: this.search.save}, (v, i) => null));
+    !!this.search && this.searchHistory.next(Array.from({length: this.search.save}, (v, i) => null));
   }
 
   researchItem(val: string) {
@@ -63,6 +63,7 @@ export class NavbarSearchComponent implements OnInit, OnChanges {
     this.search.entities[this.entity].attributes.forEach((attr: string) => params = params.append(attr, this.searchForm.value['searchInput']));
     this.http.get(this.search.url, {params}).subscribe((val: any) => {
       if (val.results.length) {
+        this.entityService.updatePagination(val);
         this.entityService.setItem(val.results);
         if (newSearch) {
           this.recordHistory(this.searchForm.value['searchInput']);

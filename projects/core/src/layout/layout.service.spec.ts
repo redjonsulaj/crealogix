@@ -1,12 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 
 import { LayoutService } from './layout.service';
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('LayoutService', () => {
   let service: LayoutService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [ HttpClientTestingModule ]
+    });
     service = TestBed.inject(LayoutService);
   });
 

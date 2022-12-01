@@ -21,7 +21,11 @@ export class LayoutComponent implements OnInit {
       .pipe(distinctUntilChanged())
       .subscribe(value => {
         if (value) {
-          this.list$ = of(this.entityService.getItem());
+          let items = this.entityService.getItem();
+          if (this.entity.hasOwnProperty('secondUrl')) {
+            items = this.entityService.mapResponseResults(items, this.entity['secondUrl']);
+          }
+          this.list$ = of(items);
           this.cd.markForCheck();
           this.entityService.entityChange$.next(false);
 
