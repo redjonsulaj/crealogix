@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NavbarSearchComponent } from './navbar-search.component';
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('NavbarSearchComponent', () => {
   let component: NavbarSearchComponent;
@@ -8,7 +9,8 @@ describe('NavbarSearchComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NavbarSearchComponent ]
+      declarations: [ NavbarSearchComponent ],
+      imports: [ HttpClientTestingModule ]
     })
     .compileComponents();
 

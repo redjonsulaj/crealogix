@@ -34,7 +34,7 @@ export class NavbarSearchComponent implements OnInit, OnChanges {
   }
 
   public initSearchHistory() {
-    this.searchHistory.next(Array.from({length: this.search.save}, (v, i) => null));
+    !!this.search && this.searchHistory.next(Array.from({length: this.search.save}, (v, i) => null));
   }
 
   researchItem(val: string) {
