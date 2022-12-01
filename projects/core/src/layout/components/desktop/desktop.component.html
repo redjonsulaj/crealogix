@@ -1,11 +1,9 @@
-<mat-toolbar color="primary">
-  <mat-toolbar-row *ngIf="search.active">
-    <lib-navbar-search [search]="search" [entity]="layoutService.router.url.split('/')[1]"></lib-navbar-search>
-  </mat-toolbar-row>
-  <mat-toolbar-row *ngIf="entities">
-    <lib-navbar [entities]="entities"></lib-navbar>
-  </mat-toolbar-row>
-</mat-toolbar>
+<ng-container *ngIf="search.active">
+  <lib-navbar-search *ngIf="this.layoutService.router.url.split('/').length === 2" [search]="search" [entity]="layoutService.router.url.split('/')[1]"></lib-navbar-search>
+</ng-container>
 <div class="container">
+  <ng-container *ngIf="entities">
+    <lib-navbar [entities]="entities"></lib-navbar>
+  </ng-container>
   <router-outlet></router-outlet>
 </div>

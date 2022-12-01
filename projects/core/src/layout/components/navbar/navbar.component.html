@@ -1,5 +1,5 @@
 <ng-template [ngIf]="entities && entities.active">
-  <div>
-    <button mat-button mat-raised-button *ngFor="let link of navLinks" (click)="redirectTo(link)">{{link.label}}</button>
+  <div class="nav">
+    <button *ngFor="let link of navLinks" (click)="redirectTo(link)">{{link.label}}</button>
   </div>
 </ng-template>

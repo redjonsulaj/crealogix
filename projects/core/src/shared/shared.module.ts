@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MaterialModule} from "./material.module";
 import {TransformPipe} from "./pipes/transform.pipe";
 
 @NgModule({
@@ -8,11 +7,9 @@ import {TransformPipe} from "./pipes/transform.pipe";
     TransformPipe
   ],
   imports: [
-    CommonModule,
-    MaterialModule
+    CommonModule
   ],
   exports: [
-    MaterialModule,
     TransformPipe
   ]
 })
